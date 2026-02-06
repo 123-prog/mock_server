@@ -182,14 +182,16 @@ const logAccess = (endpoint, req, body) => {
 };
 
 // 动态处理所有mock请求
-const handleMockRequest = async (req, res) => {
+const handleMockRequest = async (req, res, actualPath) => {
   try {
-    const endpoint = mockEndpoints.findByPathAndMethod(req.path, req.method);
+    // 使用传入的实际路径，如果没有传入则使用 req.path
+    const pathToMatch = actualPath || req.path;
+    const endpoint = mockEndpoints.findByPathAndMethod(pathToMatch, req.method);
 
     if (!endpoint) {
       return res.status(404).json({
         error: 'Mock endpoint not found',
-        message: `No mock configured for ${req.method} ${req.path}`
+        message: `No mock configured for ${req.method} ${pathToMatch}`
       });
     }
 
@@ -226,8 +228,9 @@ const handleMockRequest = async (req, res) => {
 
 // 捕获所有mock请求（排除/admin路径）
 app.all('/mock/*', (req, res) => {
-  req.path = req.path.replace('/mock', '');
-  handleMockRequest(req, res);
+  // 去除 /mock 前缀，获取实际的路径
+  const actualPath = req.path.replace('/mock', '');
+  handleMockRequest(req, res, actualPath);
 });
 
 // 健康检查
