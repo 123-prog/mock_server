@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock API Platform - 管理界面</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Mock API Platform</h1>
+            <p class="subtitle">轻松创建和管理Mock API接口</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 左侧：创建/编辑表单 -->
+            <div class="form-section">
+                <h2 id="form-title">创建新的Mock接口</h2>
+                <form id="mock-form">
+                    <input type="hidden" id="endpoint-id" value="">
+
+                    <div class="form-group">
+                        <label for="path">URL路径 *</label>
+                        <input type="text" id="path" placeholder="/api/users" required>
+                        <small>例如: /api/users 或 /api/products/123</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="method">HTTP方法 *</label>
+                            <select id="method" required>
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="OPTIONS">OPTIONS</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status-code">状态码 *</label>
+                            <select id="status-code">
+                                <option value="200">200 - OK</option>
+                                <option value="201">201 - Created</option>
+                                <option value="204">204 - No Content</option>
+                                <option value="400">400 - Bad Request</option>
+                                <option value="401">401 - Unauthorized</option>
+                                <option value="403">403 - Forbidden</option>
+                                <option value="404">404 - Not Found</option>
+                                <option value="500">500 - Internal Server Error</option>
+                                <option value="502">502 - Bad Gateway</option>
+                                <option value="503">503 - Service Unavailable</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="content-type">Content-Type</label>
+                            <select id="content-type">
+                                <option value="application/json">application/json</option>
+                                <option value="text/plain">text/plain</option>
+                                <option value="text/html">text/html</option>
+                                <option value="application/xml">application/xml</option>
+                                <option value="text/xml">text/xml</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="delay">响应延迟 (毫秒)</label>
+                            <input type="number" id="delay" value="0" min="0" max="30000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="response-headers">响应头 (JSON格式)</label>
+                        <textarea id="response-headers" rows="3" placeholder='{"X-Custom-Header": "value"}'>{}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="response-body">响应体</label>
+                        <textarea id="response-body" rows="8" placeholder='{"message": "Hello World"}'>{}</textarea>
+                        <small>JSON格式会自动格式化</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submit-btn">创建接口</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-btn" style="display:none;">取消编辑</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 右侧：接口列表 -->
+            <div class="list-section">
+                <div class="list-header">
+                    <h2>Mock接口列表</h2>
+                    <div class="list-actions">
+                        <button class="btn btn-small" id="export-btn">导出配置</button>
+                        <button class="btn btn-small" id="import-btn">导入配置</button>
+                        <button class="btn btn-small" id="refresh-btn">刷新</button>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <span id="endpoint-count">总共 0 个接口</span>
+                </div>
+
+                <div id="endpoints-list" class="endpoints-list">
+                    <div class="empty-state">暂无Mock接口，请创建一个</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使用说明 -->
+        <div class="usage-section">
+            <h3>📖 使用说明</h3>
+            <div class="usage-content">
+                <div class="usage-item">
+                    <strong>访问Mock接口：</strong>
+                    <code id="mock-base-url">http://localhost:3000/mock{your_path}</code>
+                    <button class="btn-copy" onclick="copyToClipboard('mock-base-url')">复制</button>
+                </div>
+                <div class="usage-item">
+                    <strong>示例：</strong>如果你创建了路径为 <code>/api/users</code> 的GET接口，访问地址为：
+                    <code>http://localhost:3000/mock/api/users</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入弹窗 -->
+    <div id="import-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>导入Mock配置</h2>
+            <textarea id="import-data" rows="15" placeholder="粘贴导出的JSON配置"></textarea>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="import-confirm-btn">导入</button>
+                <button class="btn btn-secondary" id="import-cancel-btn">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

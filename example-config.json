@@ -1,0 +1,188 @@
+[
+  {
+    "id": "example-1",
+    "path": "/api/users",
+    "method": "GET",
+    "status_code": 200,
+    "response_headers": {
+      "X-Total-Count": "2"
+    },
+    "response_body": {
+      "users": [
+        {
+          "id": 1,
+          "name": "张三",
+          "email": "zhangsan@example.com",
+          "role": "admin"
+        },
+        {
+          "id": 2,
+          "name": "李四",
+          "email": "lisi@example.com",
+          "role": "user"
+        }
+      ]
+    },
+    "delay": 0,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-2",
+    "path": "/api/users",
+    "method": "POST",
+    "status_code": 201,
+    "response_headers": {
+      "Location": "/api/users/3"
+    },
+    "response_body": {
+      "success": true,
+      "message": "用户创建成功",
+      "data": {
+        "id": 3,
+        "name": "新用户",
+        "email": "newuser@example.com",
+        "role": "user"
+      }
+    },
+    "delay": 500,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-3",
+    "path": "/api/users/1",
+    "method": "GET",
+    "status_code": 200,
+    "response_headers": {},
+    "response_body": {
+      "id": 1,
+      "name": "张三",
+      "email": "zhangsan@example.com",
+      "role": "admin",
+      "created_at": "2024-01-01T00:00:00Z"
+    },
+    "delay": 0,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-4",
+    "path": "/api/users/999",
+    "method": "GET",
+    "status_code": 404,
+    "response_headers": {},
+    "response_body": {
+      "error": "Not Found",
+      "message": "用户不存在",
+      "code": "USER_NOT_FOUND"
+    },
+    "delay": 0,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-5",
+    "path": "/api/products",
+    "method": "GET",
+    "status_code": 200,
+    "response_headers": {
+      "X-Total-Count": "3",
+      "X-Page": "1"
+    },
+    "response_body": {
+      "products": [
+        {
+          "id": 1,
+          "name": "iPhone 15",
+          "price": 5999,
+          "stock": 100
+        },
+        {
+          "id": 2,
+          "name": "MacBook Pro",
+          "price": 12999,
+          "stock": 50
+        },
+        {
+          "id": 3,
+          "name": "AirPods Pro",
+          "price": 1999,
+          "stock": 200
+        }
+      ],
+      "total": 3,
+      "page": 1,
+      "per_page": 10
+    },
+    "delay": 0,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-6",
+    "path": "/api/error",
+    "method": "GET",
+    "status_code": 500,
+    "response_headers": {},
+    "response_body": {
+      "error": "Internal Server Error",
+      "message": "服务器内部错误，请稍后重试",
+      "code": "INTERNAL_ERROR",
+      "timestamp": "2024-01-01T00:00:00Z"
+    },
+    "delay": 0,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-7",
+    "path": "/api/slow",
+    "method": "GET",
+    "status_code": 200,
+    "response_headers": {},
+    "response_body": {
+      "message": "这是一个模拟慢速网络的响应",
+      "delay_ms": 3000
+    },
+    "delay": 3000,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-8",
+    "path": "/health",
+    "method": "GET",
+    "status_code": 200,
+    "response_headers": {},
+    "response_body": {
+      "status": "healthy",
+      "uptime": 86400,
+      "timestamp": "2024-01-01T00:00:00Z"
+    },
+    "delay": 0,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-9",
+    "path": "/api/login",
+    "method": "POST",
+    "status_code": 200,
+    "response_headers": {},
+    "response_body": {
+      "success": true,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.example",
+      "user": {
+        "id": 1,
+        "username": "admin",
+        "role": "admin"
+      },
+      "expires_in": 3600
+    },
+    "delay": 200,
+    "content_type": "application/json"
+  },
+  {
+    "id": "example-10",
+    "path": "/api/xml-data",
+    "method": "GET",
+    "status_code": 200,
+    "response_headers": {},
+    "response_body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<users>\n  <user>\n    <id>1</id>\n    <name>张三</name>\n    <email>zhangsan@example.com</email>\n  </user>\n  <user>\n    <id>2</id>\n    <name>李四</name>\n    <email>lisi@example.com</email>\n  </user>\n</users>",
+    "delay": 0,
+    "content_type": "application/xml"
+  }
+]
